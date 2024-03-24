@@ -1,0 +1,549 @@
+ #map {
+      position: fixed;
+      top: 65px;
+      bottom: 0;
+      right: 0;
+      left: 350px;
+      z-index: 1;
+    }
+
+
+
+    .nav-bar {
+      background-color: rgb(121, 152, 152);
+      height: 60px;
+      color: black;
+      border: 2px solid transparent;
+      display: flex;
+      /* Use flex for horizontal alignment */
+      align-items: center;
+      font-family: Arial, Helvetica, sans-serif;
+      justify-content: space-evenly;
+      position: fixed;
+      /* Make the navbar fixed */
+      top: 0;
+      /* Position it at the top of the viewport */
+      left: 0;
+      /* Position it at the left edge of the viewport */
+      width: 100%;
+      /* Make it span the full width of the viewport */
+      z-index: 2;
+      /* Maintain stacking order above other elements */
+      transition: all 0.3s ease-in-out;
+      /* Add smooth transition effect */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 2);
+      /* Optional: Add subtle shadow */
+      /* Optional: Add subtle shadow */
+    }
+
+    .navbar-logo {
+      height: 50px;
+      width: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo {
+      background-image: url(ctaelogo.png);
+      background-size: cover;
+      height: 60px;
+      width: 60px;
+    }
+
+    .border {
+      border: 2px solid transparent;
+    }
+
+    .border:hover {
+      border: 2px solid black;
+
+    }
+
+    .web-name {
+      font-size: 2em;
+      /* font-style: oblique; */
+      /* font-family: 'Courier New', Courier, monospace; */
+      font-family: serif;
+      font-weight: 700;
+    }
+
+
+    .nav-search {
+      display: flex;
+      justify-content: space-evenly;
+      /* background-color: pink; */
+      width: 620px;
+      height: 40px;
+      border-radius: 30px;
+      border: 2px solid #a6b181;
+    }
+
+    .search-input {
+      width: 100%;
+      border: none;
+      font-size: 1.1rem;
+      border-top-left-radius: 30px;
+      border-bottom-left-radius: 30px;
+    }
+
+    .search-icon {
+      width: 45px;
+      display: flex;
+      font-size: 1.2rem;
+      justify-content: center;
+      align-items: center;
+      /* background-color: #febd68; */
+      border-top-right-radius: 30px;
+      border-bottom-right-radius: 30px;
+      color: #0f1111;
+      border: none;
+    }
+
+    /*.direc-icon{*/
+    /*    width: 45px;*/
+    /*    display: flex;*/
+    /*    font-size: 1.2rem;*/
+    /*    justify-content: center;*/
+    /*    align-items: center;*/
+    /*    background-color: #dcd8d8;*/
+    /*    border-top-right-radius: 30px;*/
+    /*    border-bottom-right-radius: 30px;*/
+    /*    color: #0f1111;*/
+    /*    border: none;*/
+    /*}*/
+
+    .nav-search:hover {
+      border: 3px solid black;
+    }
+
+    .boxx {
+
+      height: 50px;
+      width: 200px;
+      /* background-color:red; */
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      font-size: 1.5rem;
+    }
+
+    .button-icon {
+      height: 40px;
+      width: 40px;
+      font-size: 1.2rem;
+      border: none;
+      /*background-attachment: 0;*/
+
+      background-color: transparent;
+
+    }
+
+    .icon-font {
+      font-size: 0.7rem;
+    }
+
+
+
+
+
+    * {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      /*border: border-box;*/
+      font-size: 1rem;
+    }
+
+    .box {
+
+      /* align-items:flex-start; */
+      background-color: rgb(178, 197, 197);
+      height: 700px;
+      width: 350px;
+      z-index: 3;
+    }
+
+    #image {
+      background-color: azure;
+      width: 350px;
+      height: 200px;
+      /* background: url(ramona.jpg); */
+      background-size: cover;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 2);
+      /* Optional: Add subtle shadow */
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+
+
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      /* Set a clean, readable font */
+      margin: 0;
+      /* Remove default margin from body */
+    }
+
+    #Overview {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      width: 85px;
+      height: 27px;
+      border: 1px solid transparent;
+      border-radius: 1rem;
+
+    }
+
+    #Overview:hover {
+      background-color: #e6d1f5;
+      color: rgb(44, 37, 37);
+    }
+
+    #Floor-plan:hover {
+      background-color: #e6d1f5;
+      color: rgb(44, 37, 37);
+    }
+
+    #Contact:hover {
+      background-color: #e6d1f5;
+      color: rgb(44, 37, 37);
+    }
+
+
+    #Floor-plan {
+      margin-top: 1rem;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      width: 85px;
+      height: 27px;
+      border: 1px solid transparent;
+      border-radius: 1rem;
+    }
+
+    #Contact {
+      margin-top: 1rem;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      width: 85px;
+      height: 27px;
+      border: 1px solid transparent;
+      border-radius: 1rem;
+    }
+
+    /* Overview Content */
+    #buiding-name {
+      border-top: 0.5px solid white;
+      border-bottom: 0.5px solid white;
+
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 25px;
+      font-weight: bolder;
+    }
+
+    #floors-font {
+      border-top: 0.5px solid white;
+      border-bottom: 0.5px solid white;
+      font-size: 20px;
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: bolder;
+    }
+
+
+    #overview-content {
+      padding: 20px;
+      /* Add some padding inside the content area */
+      background-color: #b2c5c5;
+      border: 1px solid #ddd;
+      /* Add a light border */
+      border-radius: 5px;
+      /* Add some rounded corners for a softer look */
+      display: flex;
+      /* Allow elements inside to align horizontally */
+      align-items: center;
+      /* Vertically center content within the overview area */
+    }
+
+    #icon {
+      font-size: 100px;
+    }
+
+    /* Building Icon */
+    #building {
+      margin-right: 20px;
+      /* Add some space between the icon and text content */
+    }
+
+    /* Overview Content Text */
+    #oc {
+      flex: 1;
+      /* Expand to fill available space within the overview content */
+    }
+
+    #oc h1,
+    #oc p {
+      margin: 5px 0;
+      /* Add some spacing between headings and paragraphs */
+    }
+
+    #oc h1 {
+      font-size: 18px;
+      /* Increase heading font size slightly */
+    }
+
+    #oc p {
+      color: #666;
+      /* Use a slightly lighter color for paragraphs */
+    }
+
+
+    #overview-content #building p {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      /* Add spacing between paragraphs */
+    }
+
+    #overview-content #building i {
+      margin-right: 10px;
+      /* Adjust spacing between icon and text */
+      font-size: 18px;
+      /* Adjust icon size if needed */
+    }
+
+    #overview-content #building p:first-child {
+      /* Style the first paragraph (building name) */
+      font-weight: bold;
+      font-size: 16px;
+      /* Adjust font size if needed */
+    }
+
+    #Overview:hover {
+      cursor: pointer;
+    }
+
+    #Floor-plan:hover {
+      cursor: pointer;
+    }
+
+    #Contact:hover {
+      cursor: pointer;
+    }
+
+
+
+    /* Floor Content */
+    #floor-content {
+      padding: 20px;
+      /* Add some padding inside the content area */
+      border: 1px solid #ddd;
+      /* Add a light border */
+      border-radius: 5px;
+      /* Add some rounded corners for a softer look */
+      margin-top: 20px;
+      /* Add some space after previous content */
+    }
+
+    /* Floor Details */
+    .floor-details {
+      margin-bottom: 20px;
+      /* Add spacing between floor details sections */
+    }
+
+    /* Select Box */
+    select {
+      width: 309px;
+      margin-bottom: 1rem;
+      font-size: 16px;
+      /* Increase select box font size for better readability */
+      padding: 5px;
+      /* Add some padding inside the select box */
+      border: 1px solid transparent;
+      /* Add a light border */
+      border-radius: 30%;
+      /* Add rounded corners to the select box */
+    }
+
+    /* Floor Heading and Description */
+    .floor-details h2,
+    .floor-details p {
+      margin: 5px 0;
+      /* Add some spacing between headings and paragraphs */
+    }
+
+    .floor-details h2 {
+      font-size: 18px;
+      /* Increase heading font size slightly */
+    }
+
+    .floor-details p {
+      color: #666;
+      /* Use a slightly lighter color for paragraphs */
+    }
+
+    /* Unordered List */
+    .floor-details ul {
+      list-style-type: disc;
+      /* Set list style to disc (bullets) */
+      padding-left: 20px;
+      /* Indent list items */
+    }
+
+    .floor-details ul li {
+      margin-bottom: 5px;
+      /* Add some spacing between list items */
+    }
+
+
+    .floor-details {
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 10px;
+      /* Add spacing between floors */
+    }
+
+    .floor-details h2 {
+      margin-top: 0;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .floor-details p {
+      margin-top: 5px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .floor-details ul {
+      list-style: none;
+      /* Remove default bullet points */
+      padding-left: 0;
+      /* Remove default indentation */
+      margin-top: 10px;
+      /* Add space after the description */
+    }
+
+    .floor-details li {
+      margin-bottom: 5px;
+    }
+
+    .floor-details li a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      /* Set a clean, readable font */
+      margin: 0;
+      /* Remove default margin from body */
+    }
+
+    /* Floor Content */
+    #floor-content {
+      padding: 20px;
+      /* Add some padding inside the content area */
+      border: 1px solid #ddd;
+      /* Add a light border */
+      border-radius: 5px;
+      /* Add some rounded corners for a softer look */
+      margin-top: 20px;
+      /* Add some space after previous content */
+    }
+
+    /* Floor Details */
+    .floor-details {
+      margin-bottom: 20px;
+      /* Add spacing between floor details sections */
+    }
+
+    /* Select Box */
+    select {
+      font-size: 16px;
+      /* Increase select box font size for better readability */
+      padding: 5px;
+      /* Add some padding inside the select box */
+      border: 1px solid #ddd;
+      /* Add a light border */
+      border-radius: 3px;
+      /* Add rounded corners to the select box */
+    }
+
+    /* Floor Heading and Description */
+    .floor-details h2,
+    .floor-details p {
+      margin: 5px 0;
+      /* Add some spacing between headings and paragraphs */
+    }
+
+    .floor-details h2 {
+      font-size: 18px;
+      /* Increase heading font size slightly */
+    }
+
+    .floor-details p {
+      color: #666;
+      /* Use a slightly lighter color for paragraphs */
+    }
+
+    /* Unordered List */
+    .floor-details ul {
+      list-style-type: disc;
+      /* Set list style to disc (bullets) */
+      padding-left: 20px;
+      /* Indent list items */
+    }
+
+    .floor-details ul li {
+      margin-bottom: 5px;
+      /* Add some spacing between list items */
+    }
+
+
+    /* /contact content/  */
+    #contact-content {
+      background-color: transparent;
+      width: 346px;
+      height: 150px;
+      padding-top: 20px;
+      border: 1px solid white;
+      margin-top: 10px;
+
+    }
+
+
+    #contact-content h2 {
+      width: 250px;
+      height: 20px;
+      /* border: 1px solid white;
+      border-radius: 1rem; */
+
+      font-size: 1.5rem;
+      padding-bottom: 10px;
+      padding-left: 10px;
+
+    }
+
+    #contact-content p {
+      padding-top: 10px;
+    }
+
+    #contact-content b {
+      padding-top: 10px;
+    }
