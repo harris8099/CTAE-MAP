@@ -14,6 +14,7 @@ git clone https://github.com/yourusername/campus-map-website.git
 
 #Open the index.html file in any web browser to explore the campus map. 🌐
 ```
+![Screenshot 2024-11-19 172322](https://github.com/user-attachments/assets/434d2cb4-0b4a-40f5-bcf0-bb81ccef6541)
 
 
 Feel free to contribute and enhance the functionality of the campus map! 🤝
