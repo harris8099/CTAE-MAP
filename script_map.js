@@ -22,13 +22,137 @@
         attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
       }).addTo(map);
 
+    // Terrain Layer (Topographic)
+    var terrain = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+      maxZoom: 17,
+      attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="https://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a>'
+    });
 
-    // Layer control 
+    // Dark Mode Layer
+    var darkMap = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 20
+    });
+
+    // Light Mode Layer
+    var lightMap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 20
+    });
+
+    // Hybrid Layer (Satellite with labels)
+    var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+
+    // Layer control with multiple options
     var baseLayers = {
       "Satellite Map": googleSat,
-      "Street Map": osm
+      "Hybrid Map (Satellite + Labels)": googleHybrid,
+      "Street Map": osm,
+      "Terrain Map": terrain,
+      "Dark Mode": darkMap,
+      "Light Mode": lightMap
     }
     L.control.layers(baseLayers).addTo(map);
+
+    // ==================== Category Overlay Layers ====================
+    
+    // Define category colors and labels
+    var categoryStyles = {
+      "Academic": { color: "#4c8b86", fillColor: "#4c8b86", fillOpacity: 0.3 },
+      "Hostel": { color: "#8b4c86", fillColor: "#8b4c86", fillOpacity: 0.3 },
+      "Admin": { color: "#8b864c", fillColor: "#8b864c", fillOpacity: 0.3 },
+      "Sports": { color: "#4c6b8b", fillColor: "#4c6b8b", fillOpacity: 0.3 },
+      "Facilities": { color: "#5a8b4c", fillColor: "#5a8b4c", fillOpacity: 0.3 }
+    };
+
+    // Category overlay groups
+    var academicLayer = L.layerGroup();
+    var hostelLayer = L.layerGroup();
+    var adminLayer = L.layerGroup();
+    var sportsLayer = L.layerGroup();
+    var facilitiesLayer = L.layerGroup();
+
+    // Add category overlay control
+    var overlayLayers = {
+      "🏛️ Academic Buildings": academicLayer,
+      "🏠 Hostels": hostelLayer,
+      "🏢 Administrative": adminLayer,
+      "⚽ Sports Complex": sportsLayer,
+      "🏪 Facilities (Canteen, Library, Hospital)": facilitiesLayer
+    };
+    
+    L.control.layers(null, overlayLayers, { collapsed: false }).addTo(map);
+
+    // Function to add building markers with categories
+    function addBuildingMarkers() {
+      var buildings = [
+        // Academic Buildings
+        { name: "Soil and Water Engineering", lat: 24.5967, lng: 73.7345, category: "Academic", id: 0 },
+        { name: "Mechanical Engineering", lat: 24.5985, lng: 73.7346, category: "Academic", id: 1 },
+        { name: "Civil Engineering", lat: 24.5973, lng: 73.7335, category: "Academic", id: 2 },
+        { name: "Electrical Engineering", lat: 24.5978, lng: 73.7358, category: "Academic", id: 3 },
+        { name: "Computer Science & Engineering", lat: 24.5953, lng: 73.7346, category: "Academic", id: 4 },
+        { name: "Mining Engineering", lat: 24.5984, lng: 73.7337, category: "Academic", id: 5 },
+        { name: "PG Block", lat: 24.5958, lng: 73.7351, category: "Academic", id: 6 },
+        { name: "Farm Machinery & Power Engineering", lat: 24.5957, lng: 73.7354, category: "Academic", id: 7 },
+        { name: "Basic Science", lat: 24.5968, lng: 73.7345, category: "Academic", id: 11 },
+        { name: "Electronics & Communication Engineering", lat: 24.5904, lng: 73.7387, category: "Academic", id: 12 },
+        { name: "Processing & Food Engineering", lat: 24.5959, lng: 73.7342, category: "Academic", id: 13 },
+        
+        // Hostels
+        { name: "AN Khosla Hostel", lat: 24.5964, lng: 73.7363, category: "Hostel", id: 15 },
+        { name: "Maharana Vijsingh Hostel", lat: 24.5963, lng: 73.7369, category: "Hostel", id: 16 },
+        { name: "Neta Ji Subhas Chandra Hostel", lat: 24.5971, lng: 73.7365, category: "Hostel", id: 17 },
+        
+        // Administrative
+        { name: "Administrative Block", lat: 24.5964, lng: 73.7337, category: "Admin", id: 9 },
+        { name: "MPUAT Administrative Building", lat: 24.6007, lng: 73.7390, category: "Admin", id: 19 },
+        
+        // Sports
+        { name: "University Sports Complex", lat: 24.5976, lng: 73.7393, category: "Sports", id: 18 },
+        
+        // Facilities
+        { name: "CTAE Canteen", lat: 24.5971, lng: 73.7343, category: "Facilities", id: 8 },
+        { name: "College Library", lat: 24.5963, lng: 73.7343, category: "Facilities", id: 10 },
+        { name: "CTAE Hospital", lat: 24.5950, lng: 73.7381, category: "Facilities", id: 20 }
+      ];
+
+      buildings.forEach(function(building) {
+        var markerIcon = L.divIcon({
+          className: 'custom-marker',
+          html: '<div style="background-color:' + categoryStyles[building.category].fillColor + ';width:20px;height:20px;border-radius:50%;border:2px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.3)"></div>',
+          iconSize: [20, 20],
+          iconAnchor: [10, 10]
+        });
+
+        var marker = L.marker([building.lat, building.lng], { icon: markerIcon })
+          .bindPopup('<b>' + building.name + '</b><br>Category: ' + building.category + '<br><button onclick="detail_pane(' + building.id + ')">View Details</button>');
+
+        // Add to appropriate category layer
+        switch(building.category) {
+          case "Academic": marker.addTo(academicLayer); break;
+          case "Hostel": marker.addTo(hostelLayer); break;
+          case "Admin": marker.addTo(adminLayer); break;
+          case "Sports": marker.addTo(sportsLayer); break;
+          case "Facilities": marker.addTo(facilitiesLayer); break;
+        }
+      });
+    }
+
+    // Add building markers
+    addBuildingMarkers();
+
+    // Initially show all category layers
+    academicLayer.addTo(map);
+    hostelLayer.addTo(map);
+    adminLayer.addTo(map);
+    sportsLayer.addTo(map);
+    facilitiesLayer.addTo(map);
 
     // Setting Default zoom Level
     map.setZoom(16);

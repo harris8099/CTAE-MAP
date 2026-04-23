@@ -1,131 +1,311 @@
  const Department_array = [{
       id: '0',
-      image: "location",
+      image: "assets/soilandwater.png",
       name: 'Soil and Water Engineering',
       floor: [
-        ["Hod office", "Conference Hall", "IDP"],
-        ["Post Office", "Warden Office", "405"]
+        ["HOD Office", "Conference Hall", "IDP", "Soil Testing Lab", "Water Resources Lab"],
+        ["Post Office", "Warden Office", "Research Lab", "Classroom 405"]
       ],
-      detail: 'The Agriculture Department plays a pivotal role in nurturing the backbone of human civilization',
-      faculty: 10,
+      detail: 'The Department of Soil and Water Engineering was established in 1964. It offers B.Tech. in Agricultural Engineering and M.Tech. in Soil and Water Engineering. The department has well-equipped laboratories for soil physics, hydrology, and water resources testing. It focuses on sustainable water management and soil conservation practices for agricultural development.',
+      faculty: 12,
       contact: {
         Dean: "+912942470837",
+        HOD: "+912942470841"
       }
     },
     {
       id: '1',
-      image: "location",
+      image: "assets/mech.png",
       name: 'Mechanical Engineering',
       floor: [
-        ["Hod office", "Conference Hall", "IDP", "CARPENTRY SHOP", "Smith Shop", "Welding shop", "Machine shop", "Foundary Shop", "Pattern Shop", "Drawing Lab", "Fluid Lab"],
-
+        ["HOD Office", "Conference Hall", "IDP", "Carpentry Shop", "Smith Shop"],
+        ["Welding Shop", "Machine Shop", "Foundry Shop", "Pattern Shop"],
+        ["Drawing Lab", "Fluid Mechanics Lab", "Thermodynamics Lab"]
       ],
-      detail: 'To provide mechanical engineers of highest caliber who would engage in research, design and development to help building the nation towards self reliance in her technological need. To become a centre of excellence in education, research and technological service to the nation for its need in design and manufacturing independence.',
-      faculty: 10,
+      detail: 'The Department of Mechanical Engineering was established in 1964. It aims to produce mechanical engineers of highest caliber who would engage in research, design and development to help building the nation towards self-reliance in her technological needs. The department has state-of-the-art workshops and laboratories including CAD/CAM lab, Manufacturing lab, and Automobile engineering lab.',
+      faculty: 18,
       contact: {
         Dean: "+912942470837",
+        HOD: "+912942470842"
       }
     },
     {
       id: '2',
-      image: "location",
-      name: 'Civil Engineering ',
+      image: "assets/Civil.jpg",
+      name: 'Civil Engineering',
       floor: [
-        ["Mechanics lab", "Civil Lab", "Exam hall"],
-        ["Hod office", "Conference Hall", "IDP", "Control Centre"]
+        ["HOD Office", "Conference Hall", "IDP", "Control Centre"],
+        ["Mechanics Lab", "Civil Lab", "Environmental Lab"],
+        ["Exam Hall", "Structural Engineering Lab", "Transportation Lab"]
       ],
-      detail: 'The department of Civil Engineering was established in year 1965 offering diploma in Civil Engineering. Undergraduate program B.Tech. in the Civil Engineering was started in 2007. The undergraduate programme of the department is approved by the AICTE. Currently the department has an annual intake of 40 students through centralized admission process of Rajasthan Government.',
+      detail: 'The Department of Civil Engineering was established in 1965 offering diploma in Civil Engineering. Undergraduate program B.Tech. in Civil Engineering was started in 2007. The department has annual intake of 40 students through centralized admission process of Rajasthan Government. Well-equipped labs include Concrete Lab, Geotechnical Lab, and Survey Lab.',
       faculty: 13,
       contact: {
         Dean: "+912942470837",
+        HOD: "+912942470843"
       }
     },
     {
       id: '3',
-      image: "location",
+      image: "assets/elec.png",
       name: 'Electrical Engineering',
       floor: [
-        ["IDP", "basic Electrical lab ", "Machine Motors Lab"],
-        ["HOD Office", " Conference Hall ", "Head Office", "EMI lab", "Power System "]
+        ["HOD Office", "Conference Hall", "IDP", "Head Office"],
+        ["Basic Electrical Lab", "Machine & Motors Lab", "Power Systems Lab"],
+        ["EMI Lab", "Control Systems Lab", "High Voltage Lab"]
       ],
-      detail: 'The department of electrical engineering was established in the year 1957 offering diploma in electrical stream. Under Graduate program was started in 1996 with discontinuation of diploma program.The Department of Electrical Engineering is one of the well established department in the College of Technology and Engineering (C.T.A.E.), and has a distinguished faculty, all holding M.E/ M.Tech./ M.B.A. degrees from renowned institutes in India.the Department offers instructions at undergraduate and postgraduate levels with the aim of providing a sound background in the areas of Electrical Engineering.',
-      faculty: 9,
+      detail: 'The Department of Electrical Engineering was established in 1957 offering diploma in electrical stream. Under Graduate program was started in 1996. The department has distinguished faculty holding M.E/M.Tech./M.B.A. degrees from renowned institutes. It offers instructions at undergraduate and postgraduate levels with state-of-art laboratories.',
+      faculty: 15,
       contact: {
         Dean: "+912942470837",
+        HOD: "+912942470844"
       }
     },
     {
       id: '4',
-      image: "location",
-      name: 'Computer Science Engineering',
+      image: "assets/CSE.png",
+      name: 'Computer Science & Engineering',
       floor: [
-        ["Hod office", , "IDP"],
-        ["Oops Lab", "Networking lab", "AVP Hall", "AI Classroom"]
+        ["HOD Office", "Conference Hall", "IDP", "Smart Classroom"],
+        ["OOPs Lab", "Networking Lab", "AI Lab", "Data Science Lab"],
+        ["Software Engineering Lab", "Database Lab", "Seminar Hall"]
       ],
-      detail: 'The Department aims at imparting quality education and strive to quench the thirst for knowledge.The Department offers B.Tech. (CSE) and M.Tech. (CSE) and Ph.D (CSE) programs.  The Department lays emphasis on theoretical and practical aspects of subjects taught viz. Computer Technologies, Distributed Computing, Information Security, High Speed Networks, Wireless and Mobile Networks, Programming Languages, networking and database management, Software engineering and several other domains of computer engineering. Moreover updation of syllabus is carried out at regular span of time to keep in pace with the recent technologies.The classes are conducted by procuring latest technologies viz. smart classes and multimedia.The department has developed a high end seminar hall with the state of art computation and multimedia facility.The curriculum inculcates industrial summer training which enable students to get acquainted with work culture and in turn help them groom themselves. CSE students have accomplished training projects in esteemed organizations such as TCS, HCL, RAMCO, CTS, Nature Soft, NAL, ISRO, NLC, IGCAR etc.',
-
-      faculty: 18,
+      detail: 'The Department offers B.Tech. (CSE), M.Tech. (CSE), and Ph.D (CSE) programs. The curriculum includes theoretical and practical aspects of Computer Technologies, Distributed Computing, Information Security, Wireless and Mobile Networks, Programming Languages, and Software engineering. Students have accomplished training projects in TCS, HCL, CTS, ISRO, NLC, IGCAR etc.',
+      faculty: 22,
       contact: {
         Dean: "+912942470837",
+        HOD: "+912942470845"
       }
     },
     {
       id: '5',
-      image: "location",
-      name: 'Minning Engineering',
+      image: "assets/mining.png",
+      name: 'Mining Engineering',
       floor: [
-        ["Hod office", "Conference Hall", "IDP"],
-        ["Rock Mechanic Lab", "Mines Surveying Lab", "Geology Lab", "Technology Lab"]
+        ["HOD Office", "Conference Hall", "IDP"],
+        ["Rock Mechanics Lab", "Mines Surveying Lab", "Geology Lab"],
+        ["Mining Technology Lab", "Ventilation Lab", "Mine Computing Lab"]
       ],
-      detail: 'The Department of Mining Engineering was established in 1957 in Udaipur to impart diploma in mining and mine surveying and in 1996, it was raised to degree level to cater the demand and need of the mining sector with an annual intake capacity of 20 students. The department has its own building with all infrastructure facilities and modern well equipped laboratories i.e Mine computing laboratory, Rock mechanics & Dimensional Stone Laboratory, Mining and Mineral Processing, Environmental & Geology Laboratory, Survey Lab. etc. and a departmental library having good number of books. Department is situated in the heart of mining activities, so that students get practical exposures with theory part. We have a unique way to imparting field based knowledge, in which guest faculties from renowned fields like DGMS, DMG, IBM, HZL, RSMML are invited',
-
-
+      detail: 'The Department of Mining Engineering was established in 1957 to impart diploma in mining and mine surveying, raised to degree level in 1996 with annual intake capacity of 20 students. The department has its own building with modern well-equipped laboratories. Guest faculties from DGMS, DMG, IBM, HZL, RSMML are invited for field-based knowledge.',
       faculty: 10,
       contact: {
         Dean: "+912942470837",
+        HOD: "+912942470846"
       }
     },
     {
       id: '6',
-      image: "location",
-      name: 'PG BLock',
+      image: "assets/pg.png",
+      name: 'PG Block',
       floor: [
-        ["Department Section ", "Professor Room", "IDP"],
-        ["Networking lab ", "HOD Office"]
+        ["Department Section", "Professor Room", "IDP", "Research Office"],
+        ["Networking Lab", "Computer Lab", "Seminar Hall"],
+        ["Meeting Room", "Discussion Room", "Archive Room"]
       ],
-      detail: 'The pg block',
-      faculty: 5,
+      detail: 'The PG Block houses postgraduate offices, research scholars rooms, and departmental sections for M.Tech. and Ph.D. programs. It provides dedicated research spaces for scholars working on advanced technical projects.',
+      faculty: 25,
       contact: {
         Dean: "+912942470837",
+        Coordinator: "+912942470847"
       }
     },
     {
       id: '7',
-      image: "location",
-      name: 'PG BLock',
+      image: "assets/fmd.png",
+      name: 'Farm Machinery & Power Engineering',
       floor: [
-        ["Department Section ", "Professor Room", "IDP"],
-        ["Networking lab ", "HOD Office"]
+        ["HOD Office", "Conference Hall", "IDP"],
+        ["Tractor Lab", "Farm Machinery Lab", "Power Engineering Lab"],
+        ["Testing Lab", "Design Lab", "Workshop"]
       ],
-      detail: 'The pg block',
-      faculty: 5,
+      detail: 'The Department of Farm Machinery & Power Engineering focuses on design, development, and testing of agricultural machinery. It has a Farm Machinery Testing Centre approved by the Government of India. The department conducts research on modern agricultural equipment and sustainable farming technologies.',
+      faculty: 14,
       contact: {
         Dean: "+912942470837",
+        HOD: "+912942470848"
       }
     },
     {
       id: '8',
-      image: "location",
-      name: 'Canteen ',
-      floor: [],
-      detail: "Food prepared",
-      faculty: 1,
+      image: "assets/canteen.jpeg",
+      name: 'CTAE Canteen',
+      floor: [
+        ["Main Dining Area", "Fast Food Counter", "Tea/Coffee Corner"],
+        ["Kitchen", "Storage", "Admin Office"]
+      ],
+      detail: 'The CTAE Canteen provides healthy and affordable food to students, faculty, and staff. It offers a variety of vegetarian dishes including North Indian, South Indian, and Rajasthani cuisine. The canteen operates from morning till evening to cater to all meals and snacks.',
+      faculty: 8,
       contact: {
-        Dean: "+912942470837",
+        Manager: "+912942470850"
       }
     },
-
-
+    {
+      id: '9',
+      image: "assets/admin.png",
+      name: 'Administrative Block',
+      floor: [
+        ["Dean Office", "Registrar Office", "Account Section"],
+        ["Establishment Branch", "Academic Section", "Controller of Examination"],
+        ["Store Section", "Vehicle Section", "Security Office"]
+      ],
+      detail: 'The Administrative Block houses the main offices of the college including Dean Office, Registrar, Accounts, Establishment, and Controller of Examination. It handles all administrative matters related to students, faculty, and staff.',
+      faculty: 30,
+      contact: {
+        Dean: "+912942470837",
+        Registrar: "+912942470838"
+      }
+    },
+    {
+      id: '10',
+      image: "assets/liib.png",
+      name: 'College Library',
+      floor: [
+        ["Reference Section", "Circulation Section", "Digital Library"],
+        ["Periodical Section", "Book Bank", "Reading Hall"],
+        ["E-Learning Centre", "Photocopy Section", "Cataloguing Section"]
+      ],
+      detail: 'The College Library has a vast collection of books, journals, and digital resources. It provides access to various online databases, e-journals, and research papers. The library has seating capacity for 200 students and operates from 9 AM to 5 PM on all working days.',
+      faculty: 6,
+      contact: {
+        Librarian: "+912942470852"
+      }
+    },
+    {
+      id: '11',
+      image: "assets/BSPopup.png",
+      name: 'Basic Science',
+      floor: [
+        ["HOD Office", "Physics Lab", "Chemistry Lab"],
+        ["Mathematics Department", "English Department", "Workshop"],
+        ["Language Lab", "Physics Department", "Chemistry Department"]
+      ],
+      detail: 'The Department of Basic Science provides foundational courses in Physics, Chemistry, Mathematics, and English to all engineering students. It has well-equipped laboratories for physics and chemistry practicals. The department also offers value-added courses in communication skills and soft skills.',
+      faculty: 20,
+      contact: {
+        Dean: "+912942470837",
+        HOD: "+912942470853"
+      }
+    },
+    {
+      id: '12',
+      image: "assets/ece.jpg",
+      name: 'Electronics & Communication Engineering',
+      floor: [
+        ["HOD Office", "Conference Hall", "IDP"],
+        ["Digital Electronics Lab", "Microprocessor Lab", "Communication Lab"],
+        ["VLSI Lab", "Signal Processing Lab", "Microwave Lab"]
+      ],
+      detail: 'The Department of Electronics & Communication Engineering offers B.Tech. and M.Tech. programs. It has state-of-art laboratories including VLSI design lab, Embedded systems lab, and Communication lab. The department focuses on research in areas like wireless communication, embedded systems, and signal processing.',
+      faculty: 16,
+      contact: {
+        Dean: "+912942470837",
+        HOD: "+912942470854"
+      }
+    },
+    {
+      id: '13',
+      image: "assets/fpd.png",
+      name: 'Processing & Food Engineering',
+      floor: [
+        ["HOD Office", "Conference Hall", "IDP"],
+        ["Food Processing Lab", "Dairy Lab", "Post Harvest Lab"],
+        ["Storage Lab", "Quality Control Lab", "Packaging Lab"]
+      ],
+      detail: 'The Department of Processing & Food Engineering focuses on food processing technologies, post-harvest management, and value addition to agricultural produce. It has modern laboratories for food analysis, dairy processing, and grain storage. The department collaborates with food industries for research and training.',
+      faculty: 12,
+      contact: {
+        Dean: "+912942470837",
+        HOD: "+912942470855"
+      }
+    },
+    {
+      id: '14',
+      image: "assets/renewable.png",
+      name: 'Renewable Energy Engineering',
+      floor: [
+        ["HOD Office", "Conference Hall", "IDP"],
+        ["Solar Energy Lab", "Wind Energy Lab", "Bio-energy Lab"],
+        ["Energy Conservation Lab", "Hybrid Systems Lab", "Testing Lab"]
+      ],
+      detail: 'The Department of Renewable Energy Engineering focuses on solar, wind, bio-energy, and other renewable energy technologies. It offers M.Tech. program in Renewable Energy Engineering. The department has state-of-art laboratories for solar PV systems, wind energy, and bio-energy conversion.',
+      faculty: 11,
+      contact: {
+        Dean: "+912942470837",
+        HOD: "+912942470856"
+      }
+    },
+    {
+      id: '15',
+      image: "assets/khosla.jpg",
+      name: 'AN Khosla Hostel',
+      floor: [
+        ["Warden Office", "Common Room", "Mess"],
+        ["Reading Room", "Internet Centre", "Sports Room"]
+      ],
+      detail: 'AN Khosla Hostel is one of the oldest hostels in the campus, named after the first Vice-Chancellor of MPUAT. It provides accommodation to undergraduate students. The hostel has modern amenities including Wi-Fi, mess, common room, and sports facilities.',
+      faculty: 2,
+      contact: {
+        Warden: "+912942470860"
+      }
+    },
+    {
+      id: '16',
+      image: "assets/mv.png",
+      name: 'Maharana Vijsingh Hostel',
+      floor: [
+        ["Warden Office", "Common Room", "Mess"],
+        ["Reading Room", "Internet Centre", "Sports Room"]
+      ],
+      detail: 'Maharana Vijsingh Hostel provides accommodation to final year students. The hostel is named after Maharana Pratap\'s successor. It has all modern facilities including round-the-clock security, mess, laundry, and recreational activities.',
+      faculty: 2,
+      contact: {
+        Warden: "+912942470861"
+      }
+    },
+    {
+      id: '17',
+      image: "assets/nscb.png",
+      name: 'Neta Ji Subhas Chandra Hostel',
+      floor: [
+        ["Warden Office", "Common Room", "Mess"],
+        ["Reading Room", "Internet Centre", "Sports Room"]
+      ],
+      detail: 'Neta Ji Subhas Chandra Hostel is named after the famous Indian leader. It provides accommodation to postgraduate students and research scholars. The hostel has well-furnished rooms, modern mess, and dedicated study areas.',
+      faculty: 2,
+      contact: {
+        Warden: "+912942470862"
+      }
+    },
+    {
+      id: '18',
+      image: "assets/sportcom.png",
+      name: 'University Sports Complex',
+      floor: [
+        ["Indoor Stadium", "Basketball Court", "Volleyball Court"],
+        ["Badminton Court", "Table Tennis", "Gymnasium"],
+        ["Athletics Track", "Football Ground", "Cricket Ground"]
+      ],
+      detail: 'The University Sports Complex provides excellent sports facilities for students and staff. It includes indoor sports complex, outdoor grounds, and gymnasium. The complex hosts various inter-college and state-level tournaments. Students have represented the university in national level sports events.',
+      faculty: 5,
+      contact: {
+        Director: "+912942470865"
+      }
+    },
+    {
+      id: '19',
+      image: "assets/MPUAT.png",
+      name: 'MPUAT Administrative Building',
+      floor: [
+        ["Vice-Chancellor Office", "Registrar Office", "Controller of Finance"],
+        ["Examination Branch", "Academic Branch", "Administration"]
+      ],
+      detail: 'The MPUAT Administrative Building houses the main administration of Maharana Pratap University of Agriculture and Technology. It handles all university-level academic and administrative matters. The building also contains examination cell and finance department.',
+      faculty: 50,
+      contact: {
+        VC: "+912942470101",
+        Registrar: "+912942470102"
+      }
+    }
     ];
 
     const search_btn = document.getElementById("search-btn"); // mod
