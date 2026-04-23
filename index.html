@@ -154,10 +154,18 @@
       width: 320px;
       padding: 14px;
       overflow-y: auto;
+      display: flex;
+      flex-direction: column;
       background: var(--panel-bg);
       border-right: 1px solid rgba(0, 0, 0, 0.08);
       z-index: 12;
       transition: transform 0.28s ease;
+    }
+
+    .locations-panel .panel-section {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
     }
 
     .locations-panel.collapsed {
@@ -216,7 +224,8 @@
       display: grid;
       gap: 8px;
       margin-top: 12px;
-      max-height: 211px;
+      flex: 1;
+      min-height: 0;
       overflow-y: auto;
       padding-right: 4px;
     }
@@ -400,6 +409,57 @@
       backdrop-filter: blur(3px);
     }
 
+    .mobile-panel-switcher {
+      display: none;
+      position: fixed;
+      left: 10px;
+      right: 10px;
+      bottom: 90px;
+      z-index: 1750;
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(76, 139, 134, 0.38);
+      border-radius: 999px;
+      padding: 6px;
+      gap: 6px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
+      backdrop-filter: blur(4px);
+    }
+
+    body.theme-dark .mobile-panel-switcher {
+      background: rgba(20, 33, 35, 0.96);
+      border-color: rgba(123, 184, 178, 0.38);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.32);
+    }
+
+    .mobile-panel-switcher.active {
+      display: flex;
+    }
+
+    .mobile-panel-switch-btn {
+      flex: 1;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 12px;
+      background: transparent;
+      color: var(--text-primary);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .mobile-panel-switch-btn.active {
+      background: var(--panel-accent-soft);
+      color: var(--panel-accent);
+    }
+
+    body.theme-dark .mobile-panel-switch-btn {
+      color: #dce9e7;
+    }
+
+    body.theme-dark .mobile-panel-switch-btn.active {
+      background: rgba(132, 200, 194, 0.18);
+      color: #8bd1ca;
+    }
+
     .mobile-nav-hud.active {
       display: block;
     }
@@ -545,11 +605,20 @@
 
       .nav-actions {
         gap: 2px;
+        flex-shrink: 0;
       }
 
       .nav-actions button {
         padding: 7px 6px;
         font-size: 0.84rem;
+        min-width: 36px;
+      }
+
+      #home-view-btn span,
+      #locations-toggle-btn span,
+      #panel-toggle-mobile span,
+      #theme-toggle span {
+        display: none;
       }
 
       .nav-actions .mobile-hide {
@@ -584,8 +653,8 @@
         height: calc(100vh - 56px);
       }
       
-      .location-list {
-        max-height: 120px;
+      .locations-panel {
+        overflow: hidden;
       }
       
       .panel-image {
@@ -728,6 +797,10 @@
         max-height: 180px;
       }
 
+      .mobile-panel-switcher {
+        display: flex;
+      }
+
       .side-panel.collapsed {
         transform: translateX(-100%);
       }
@@ -847,6 +920,11 @@
       <button id="mobile-recenter-btn" type="button" class="mobile-nav-btn">Recenter</button>
       <button id="mobile-voice-btn" type="button" class="mobile-nav-btn">Mute</button>
     </div>
+  </div>
+
+  <div id="mobile-panel-switcher" class="mobile-panel-switcher" aria-label="Mobile panel switcher">
+    <button id="mobile-locations-tab" type="button" class="mobile-panel-switch-btn active">Locations</button>
+    <button id="mobile-details-tab" type="button" class="mobile-panel-switch-btn">Details</button>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -1048,6 +1126,9 @@
     const mobileEndNavBtn = document.getElementById('mobile-end-nav-btn');
     const mobileRecenterBtn = document.getElementById('mobile-recenter-btn');
     const mobileVoiceBtn = document.getElementById('mobile-voice-btn');
+    const mobilePanelSwitcher = document.getElementById('mobile-panel-switcher');
+    const mobileLocationsTab = document.getElementById('mobile-locations-tab');
+    const mobileDetailsTab = document.getElementById('mobile-details-tab');
     const homeViewBtn = document.getElementById('home-view-btn');
     const themeToggleBtn = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
@@ -1077,6 +1158,7 @@
     let voiceMuted = false;
     let lastSpokenInstruction = '';
     let preferredVoice = null;
+    let activeMobilePanel = 'locations';
 
     function getGeoErrorMessage(error) {
       if (!error || typeof error.code !== 'number') {
@@ -1395,6 +1477,33 @@
       mapElement.style.left = `${locationsWidth + detailsWidth}px`;
     }
 
+    function syncMobilePanelTabs() {
+      if (!mobilePanelSwitcher) return;
+      if (mobileLocationsTab) {
+        mobileLocationsTab.classList.toggle('active', activeMobilePanel === 'locations');
+      }
+      if (mobileDetailsTab) {
+        mobileDetailsTab.classList.toggle('active', activeMobilePanel === 'details');
+      }
+    }
+
+    function setMobilePanel(panelName) {
+      if (window.innerWidth > 640) return;
+      activeMobilePanel = panelName === 'details' ? 'details' : 'locations';
+
+      if (activeMobilePanel === 'locations') {
+        if (locationsPanel) locationsPanel.classList.remove('collapsed');
+        if (sidePanel) sidePanel.classList.add('collapsed');
+      } else {
+        if (locationsPanel) locationsPanel.classList.add('collapsed');
+        if (sidePanel) sidePanel.classList.remove('collapsed');
+      }
+
+      syncMobilePanelTabs();
+      updateMapLayout();
+      setTimeout(() => map.invalidateSize(), 250);
+    }
+
     function updateSearchSuggestions(items = allLocations) {
       searchSuggestions.innerHTML = '';
       items.slice(0, 10).forEach((location) => {
@@ -1641,6 +1750,10 @@
       setActiveTab('overview');
       highlightSelectedLocation(department.id);
 
+      if (window.innerWidth <= 640) {
+        setMobilePanel('details');
+      }
+
       const layer = getNavigationTargetLayer(department);
       if (layer) {
         map.fitBounds(layer.getBounds().pad(0.25));
@@ -1872,6 +1985,9 @@
         sidePanel.classList.add('collapsed');
       }
 
+      activeMobilePanel = 'locations';
+      syncMobilePanelTabs();
+
       updateMapLayout();
       map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
       setTimeout(() => map.invalidateSize(), 250);
@@ -1931,6 +2047,12 @@
         updateVoiceButtonLabel();
       });
     }
+    if (mobileLocationsTab) {
+      mobileLocationsTab.addEventListener('click', () => setMobilePanel('locations'));
+    }
+    if (mobileDetailsTab) {
+      mobileDetailsTab.addEventListener('click', () => setMobilePanel('details'));
+    }
     themeToggleBtn.addEventListener('click', () => {
       const darkModeActive = document.body.classList.contains('theme-dark');
       applyTheme(!darkModeActive);
@@ -1973,14 +2095,14 @@
     function checkMobile() {
       const isMobile = window.innerWidth <= 640;
       if (isMobile) {
-        if (locationsPanel) locationsPanel.classList.add('collapsed');
-        if (sidePanel) sidePanel.classList.add('collapsed');
+        setMobilePanel(currentDepartment ? 'details' : 'locations');
       }
     }
     
     // Initial check
     if (locationsPanel) locationsPanel.classList.add('collapsed');
     if (sidePanel) sidePanel.classList.add('collapsed');
+    syncMobilePanelTabs();
     updateMapLayout();
     checkMobile();
     applyTheme(true);
