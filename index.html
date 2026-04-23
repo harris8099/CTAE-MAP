@@ -412,15 +412,15 @@
     .mobile-panel-switcher {
       display: none;
       position: fixed;
-      left: 10px;
       right: 10px;
-      bottom: 90px;
+      bottom: 160px;
       z-index: 1750;
       background: rgba(255, 255, 255, 0.96);
       border: 1px solid rgba(76, 139, 134, 0.38);
       border-radius: 999px;
       padding: 6px;
       gap: 6px;
+      width: 74px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
       backdrop-filter: blur(4px);
     }
@@ -433,16 +433,18 @@
 
     .mobile-panel-switcher.active {
       display: flex;
+      flex-direction: column;
     }
 
     .mobile-panel-switch-btn {
-      flex: 1;
+      width: 100%;
       border: none;
       border-radius: 999px;
-      padding: 10px 12px;
+      padding: 8px 6px;
       background: transparent;
       color: var(--text-primary);
       font-weight: 700;
+      font-size: 0.74rem;
       cursor: pointer;
     }
 
@@ -799,6 +801,11 @@
 
       .mobile-panel-switcher {
         display: flex;
+        flex-direction: column;
+      }
+
+      .mobile-panel-switch-btn {
+        padding: 7px 5px;
       }
 
       .side-panel.collapsed {
@@ -1504,6 +1511,15 @@
       setTimeout(() => map.invalidateSize(), 250);
     }
 
+    function collapseMobilePanels() {
+      if (window.innerWidth > 640) return;
+      if (locationsPanel) locationsPanel.classList.add('collapsed');
+      if (sidePanel) sidePanel.classList.add('collapsed');
+      syncMobilePanelTabs();
+      updateMapLayout();
+      setTimeout(() => map.invalidateSize(), 250);
+    }
+
     function updateSearchSuggestions(items = allLocations) {
       searchSuggestions.innerHTML = '';
       items.slice(0, 10).forEach((location) => {
@@ -1869,6 +1885,7 @@
         return;
       }
 
+      collapseMobilePanels();
       clearNavigation();
       isNavigating = true;
 
