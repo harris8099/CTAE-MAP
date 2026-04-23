@@ -19,6 +19,24 @@
       --panel-accent-soft: #d3ebe9;
       --text-primary: #1e3534;
       --text-secondary: #4a6766;
+      --app-bg: #eef3f2;
+      --nav-bg: #8fa9a4;
+      --surface-bg: #f3f7f6;
+      --card-bg: #ffffff;
+    }
+
+    body.theme-dark {
+      color-scheme: dark;
+      --panel-bg: #172022;
+      --panel-border: #2f4442;
+      --panel-accent: #84c8c2;
+      --panel-accent-soft: #213435;
+      --text-primary: #e7f1ef;
+      --text-secondary: #b3c5c2;
+      --app-bg: #0f1516;
+      --nav-bg: #1e2b2d;
+      --surface-bg: #203032;
+      --card-bg: #1a2628;
     }
 
     * {
@@ -28,7 +46,7 @@
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: #eef3f2;
+      background: var(--app-bg);
       color: var(--text-primary);
     }
 
@@ -43,8 +61,8 @@
       justify-content: space-between;
       gap: 10px;
       padding: 0 18px;
-      background: #8fa9a4;
-      color: #111;
+      background: var(--nav-bg);
+      color: var(--text-primary);
       z-index: 1000;
       border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     }
@@ -72,7 +90,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      background: #f3f7f6;
+      background: var(--surface-bg);
       border-radius: 30px;
       padding: 8px 12px;
       border: 1px solid rgba(0, 0, 0, 0.12);
@@ -124,6 +142,11 @@
       background: var(--panel-bg);
       border-right: 1px solid rgba(0, 0, 0, 0.08);
       z-index: 10;
+      transition: transform 0.28s ease;
+    }
+
+    .side-panel.collapsed {
+      transform: translateX(-100%);
     }
 
     #map {
@@ -133,6 +156,10 @@
       right: 0;
       bottom: 0;
       z-index: 1;
+    }
+
+    .side-panel.collapsed ~ #map {
+      left: 0;
     }
 
     .panel-section {
@@ -168,7 +195,7 @@
       border: 1px solid rgba(76, 139, 134, 0.35);
       border-radius: 10px;
       padding: 10px 12px;
-      background: white;
+      background: var(--card-bg);
       color: var(--text-primary);
       text-align: left;
       cursor: pointer;
@@ -209,11 +236,12 @@
     .tab-button {
       border: 1px solid rgba(0, 0, 0, 0.12);
       border-radius: 12px;
-      background: white;
+      background: var(--card-bg);
       padding: 10px 8px;
       font-size: 0.92rem;
       cursor: pointer;
       transition: background 0.2s ease, border-color 0.2s ease;
+      color: var(--text-primary);
     }
 
     .tab-button.active {
@@ -222,11 +250,40 @@
     }
 
     .content-card {
-      background: white;
+      background: var(--card-bg);
       border: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 14px;
       padding: 16px;
       box-shadow: 0 6px 16px rgba(20, 33, 33, 0.04);
+    }
+
+    body.theme-dark .nav-search,
+    body.theme-dark .location-item,
+    body.theme-dark .tab-button,
+    body.theme-dark .content-card {
+      border-color: rgba(133, 169, 166, 0.35);
+    }
+
+    body.theme-dark .leaflet-bar a,
+    body.theme-dark .leaflet-control-layers-toggle {
+      background-color: #1b2729;
+      color: #e7f1ef;
+      border-color: #2f4442;
+    }
+
+    body.theme-dark .leaflet-control-layers {
+      background: #1b2729;
+      color: #e7f1ef;
+      border-color: #2f4442;
+    }
+
+    body.theme-dark .leaflet-control-attribution {
+      background: rgba(20, 27, 28, 0.78);
+      color: #c6d8d5;
+    }
+
+    body.theme-dark .leaflet-control-attribution a {
+      color: #9dd4ce;
     }
 
     .content-card h3 {
@@ -267,6 +324,193 @@
       color: var(--panel-accent);
       text-decoration: none;
     }
+
+    /* ========== RESPONSIVE STYLES ========== */
+    
+    /* Tablet landscape */
+    @media screen and (max-width: 1024px) {
+      :root {
+        --panel-width: 300px;
+      }
+    }
+
+    /* Tablet portrait */
+    @media screen and (max-width: 768px) {
+      :root {
+        --panel-width: 260px;
+      }
+      
+      .nav-brand span {
+        display: none;
+      }
+      
+      .nav-search {
+        max-width: 280px;
+      }
+      
+      .nav-actions button span {
+        display: none;
+      }
+    }
+
+    /* Mobile landscape and small tablets */
+    @media screen and (max-width: 640px) {
+      :root {
+        --panel-width: 100%;
+      }
+      
+      .nav-bar {
+        height: 56px;
+        padding: 0 12px;
+        gap: 8px;
+      }
+      
+      .nav-brand .logo {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .nav-search {
+        max-width: none;
+        flex: 1;
+        padding: 6px 10px;
+      }
+      
+      .nav-search input {
+        font-size: 0.9rem;
+      }
+      
+      .side-panel {
+        position: fixed;
+        width: 100%;
+        top: 56px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-right: none;
+        border-bottom: none;
+        background: var(--panel-bg);
+        z-index: 1200;
+        transform: translateX(-100%);
+        transition: transform 0.28s ease;
+      }
+      
+      #map {
+        top: 56px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: calc(100vh - 56px);
+      }
+      
+      .location-list {
+        max-height: 120px;
+      }
+      
+      .panel-image {
+        min-height: 120px;
+      }
+    }
+
+    /* Small mobile devices */
+    @media screen and (max-width: 400px) {
+      .nav-bar {
+        padding: 0 8px;
+      }
+      
+      .nav-brand .logo {
+        width: 36px;
+        height: 36px;
+      }
+      
+      .nav-search {
+        padding: 5px 8px;
+      }
+      
+      .nav-search input {
+        font-size: 0.85rem;
+      }
+      
+      .side-panel {
+        padding: 10px;
+      }
+      
+      .panel-section h2 {
+        font-size: 0.9rem;
+      }
+      
+      .tab-button {
+        padding: 8px 6px;
+        font-size: 0.85rem;
+      }
+    }
+
+    /* Landscape mobile */
+    @media screen and (max-height: 500px) and (max-width: 768px) {
+      #map {
+        height: calc(100vh - 56px);
+      }
+    }
+
+    /* Touch devices - larger tap targets */
+    @media (hover: none) and (pointer: coarse) {
+      .location-item {
+        padding: 12px 14px;
+      }
+      
+      .nav-actions button {
+        padding: 10px;
+      }
+    }
+
+    /* High DPI displays */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      .nav-brand .logo {
+        background-image: url(ctaelogo.png);
+      }
+    }
+
+    /* Print styles */
+    @media print {
+      .nav-bar, .side-panel {
+        display: none;
+      }
+      
+      #map {
+        position: relative;
+        top: 0;
+        left: 0;
+        height: 100vh;
+      }
+    }
+
+    /* Mobile panel toggle button */
+    .panel-toggle-btn {
+      display: flex;
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 8px;
+    }
+
+    @media screen and (max-width: 640px) {
+      .panel-toggle-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .side-panel.collapsed {
+        transform: translateX(-100%);
+      }
+
+      .side-panel:not(.collapsed) {
+        transform: translateX(0);
+      }
+    }
   </style>
 </head>
 <body>
@@ -277,13 +521,26 @@
     </div>
 
     <div class="nav-search">
-      <input id="search-input" type="search" placeholder="Search building or department" />
+      <input id="search-input" type="search" placeholder="Search building or department" list="search-suggestions" />
+      <datalist id="search-suggestions"></datalist>
       <button id="search-btn" title="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
     </div>
 
     <div class="nav-actions">
-      <button type="button"><i class="fa-solid fa-bookmark"></i> Saved</button>
-      <button type="button"><i class="fa-solid fa-clock-rotate-left"></i> History</button>
+      <button type="button" id="panel-toggle-mobile" class="panel-toggle-btn" title="Toggle panel">
+        <i class="fa-solid fa-bars"></i>
+        <span>Menu</span>
+      </button>
+      <button type="button" id="home-view-btn" title="Go to default map view">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+      </button>
+      <button type="button" id="theme-toggle" title="Toggle light and dark theme">
+        <i id="theme-icon" class="fa-solid fa-moon"></i>
+        <span id="theme-label">Dark</span>
+      </button>
+      <button type="button"><i class="fa-solid fa-bookmark"></i> <span>Saved</span></button>
+      <button type="button"><i class="fa-solid fa-clock-rotate-left"></i> <span>History</span></button>
     </div>
   </div>
 
@@ -493,6 +750,7 @@
 
     const searchBtn = document.getElementById('search-btn');
     const searchInput = document.getElementById('search-input');
+    const searchSuggestions = document.getElementById('search-suggestions');
     const searchFeedback = document.getElementById('search-feedback');
     const locationList = document.getElementById('location-list');
     const overviewTab = document.getElementById('Overview');
@@ -508,26 +766,63 @@
     const floorSelect = document.getElementById('flr');
     const floorDetail = document.getElementById('f-detail');
     const contactInfo = document.getElementById('contact-info');
+    const homeViewBtn = document.getElementById('home-view-btn');
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeLabel = document.getElementById('theme-label');
 
     const departmentFloors = ['Ground Floor', 'First Floor', 'Second Floor', 'Third Floor', 'Fourth Floor'];
     const featureLayerMap = {};
     let currentDepartment = null;
 
-    const mapBounds = L.latLngBounds([24.588360, 73.721109], [24.611012, 73.750146]);
-    const map = L.map('map', { maxBounds: mapBounds }).setView([24.596185, 73.735621], 16);
+    const DEFAULT_CENTER = [24.596185, 73.735621];
+    const DEFAULT_ZOOM = 16;
+    const campusBounds = L.latLngBounds([24.588360, 73.721109], [24.611012, 73.750146]);
+    const mapBounds = campusBounds.pad(0.75);
+    const map = L.map('map', {
+      maxBounds: mapBounds,
+      maxBoundsViscosity: 0.9
+    }).setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+    let currentBaseLayer = null;
+    let layerControl = null;
 
-    const satelliteLayer = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+    const satelliteLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
       maxZoom: 20,
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
 
-    const streetLayer = L.tileLayer('https://api.maptiler.com/maps/bright-v2/{z}/{x}/{y}.png?key=uoTd2n2jFBOqRWn2JLn7', {
-      attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
+    const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 20,
+      attribution: '&copy; OpenStreetMap contributors'
     });
 
-    satelliteLayer.addTo(map);
+    const topoLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+      maxZoom: 17,
+      attribution: '&copy; OpenTopoMap contributors'
+    });
+
+    const lightLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 20,
+      subdomains: 'abcd',
+      attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+    });
+
+    const darkLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 20,
+      subdomains: 'abcd',
+      attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+    });
+
+    const baseLayers = {
+      'Street': streetLayer,
+      'Light': lightLayer,
+      'Dark': darkLayer,
+      'Topographic': topoLayer,
+      'Satellite': satelliteLayer
+    };
+
     streetLayer.addTo(map);
-    L.control.layers({ 'Satellite': satelliteLayer, 'Street': streetLayer }).addTo(map);
+    currentBaseLayer = streetLayer;
 
     const locateControl = L.control({ position: 'topleft' });
     locateControl.onAdd = function () {
@@ -622,11 +917,40 @@
         });
 
         layer.on('click', () => {
+          const resolvedId = String(feature.properties._resolvedId || '').trim();
           const clickId = String(feature.properties.id || '').trim();
-          detailPane(clickId || feature.properties.name);
+          detailPane(resolvedId || clickId || feature.properties.name);
         });
       }
     }).addTo(map);
+
+    layerControl = L.control.layers(baseLayers, { 'Campus Boundaries': geoJSONLayer }).addTo(map);
+
+    function applyTheme(isDarkMode) {
+      document.body.classList.toggle('theme-dark', isDarkMode);
+
+      if (currentBaseLayer) {
+        map.removeLayer(currentBaseLayer);
+      }
+
+      currentBaseLayer = isDarkMode ? darkLayer : lightLayer;
+      currentBaseLayer.addTo(map);
+
+      if (themeIcon && themeLabel) {
+        themeIcon.className = isDarkMode ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        themeLabel.textContent = isDarkMode ? 'Light' : 'Dark';
+      }
+    }
+
+    map.on('baselayerchange', (event) => {
+      currentBaseLayer = event.layer;
+      const selectedDark = event.name === 'Dark';
+      document.body.classList.toggle('theme-dark', selectedDark);
+      if (themeIcon && themeLabel) {
+        themeIcon.className = selectedDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        themeLabel.textContent = selectedDark ? 'Light' : 'Dark';
+      }
+    });
 
     function buildFeatureLayerMap() {
       geoJSONLayer.eachLayer((layer) => {
@@ -635,12 +959,13 @@
         const featureName = String(feature.properties.name || '').trim().toLowerCase();
         const featureId = feature.properties.id !== undefined && feature.properties.id !== null ? String(feature.properties.id) : null;
 
-        const location = allLocations.find((loc) => {
-          return (featureId && String(loc.id) === featureId) || String(loc.name).trim().toLowerCase() === featureName;
-        });
+        const locationByName = allLocations.find((loc) => String(loc.name).trim().toLowerCase() === featureName);
+        const locationById = featureId ? allLocations.find((loc) => String(loc.id) === featureId) : null;
+        const location = locationByName || locationById;
 
         if (location) {
           featureLayerMap[String(location.id)] = layer;
+          feature.properties._resolvedId = String(location.id);
           if (!featureId) {
             feature.properties.id = String(location.id);
           }
@@ -652,6 +977,15 @@
       const normalized = String(query || '').trim().toLowerCase();
       if (!normalized) return allLocations;
       return allLocations.filter((location) => location.name.toLowerCase().includes(normalized));
+    }
+
+    function updateSearchSuggestions(items = allLocations) {
+      searchSuggestions.innerHTML = '';
+      items.slice(0, 10).forEach((location) => {
+        const option = document.createElement('option');
+        option.value = location.name;
+        searchSuggestions.appendChild(option);
+      });
     }
 
     function renderLocationList(items = allLocations) {
@@ -741,6 +1075,10 @@
     }
 
     function selectDepartment(department) {
+      if (sidePanel.classList.contains('collapsed')) {
+        sidePanel.classList.remove('collapsed');
+      }
+
       currentDepartment = department;
       updateOverview(department);
       updateFloorOptions(department);
@@ -771,6 +1109,7 @@
       const query = searchInput.value.trim();
       const matches = getMatchingLocations(query);
       renderLocationList(matches);
+      updateSearchSuggestions(matches.length ? matches : allLocations);
       if (!query) {
         updateSearchFeedback('Showing all locations. Type to narrow results.');
         return;
@@ -785,6 +1124,37 @@
       }
     }
 
+    function resetToHomeState() {
+      currentDepartment = null;
+      searchInput.value = '';
+      setActiveTab('overview');
+      renderLocationList(allLocations);
+      updateSearchSuggestions(allLocations);
+      highlightSelectedLocation('');
+
+      buildingName.textContent = 'Building name';
+      buildingDetail.textContent = 'Select a location from the list or search to see building details here.';
+      buildingFloorCount.textContent = '';
+
+      imageBox.style.backgroundImage = 'none';
+      imageBox.textContent = 'Select a location to view details.';
+
+      floorSelect.innerHTML = '';
+      floorSelect.disabled = true;
+      floorDetail.innerHTML = '<p>Select a building to view floor details.</p>';
+
+      contactInfo.innerHTML = '<p>Select a building to show contact details.</p>';
+      updateSearchFeedback('Search or choose a location from the list.');
+
+      const panel = document.querySelector('.side-panel');
+      if (panel) {
+        panel.classList.add('collapsed');
+      }
+
+      map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+      setTimeout(() => map.invalidateSize(), 250);
+    }
+
     searchBtn.addEventListener('click', searchBox);
     searchInput.addEventListener('input', searchBox);
     searchInput.addEventListener('keydown', (event) => {
@@ -796,9 +1166,59 @@
     floorSelect.addEventListener('change', () => {
       if (currentDepartment) renderFloorDetails(currentDepartment, floorSelect.value);
     });
+    homeViewBtn.addEventListener('click', () => {
+      resetToHomeState();
+    });
+    themeToggleBtn.addEventListener('click', () => {
+      const darkModeActive = document.body.classList.contains('theme-dark');
+      applyTheme(!darkModeActive);
+    });
+
+    // ========== Responsive Features ==========
+    
+    // Handle map resize on window resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        map.invalidateSize();
+      }, 100);
+    });
+
+    // Mobile panel toggle
+    const panelToggleBtn = document.getElementById('panel-toggle-mobile');
+    const sidePanel = document.querySelector('.side-panel');
+    
+    if (panelToggleBtn && sidePanel) {
+      panelToggleBtn.addEventListener('click', () => {
+        sidePanel.classList.toggle('collapsed');
+        // Update map size after panel toggle
+        setTimeout(() => {
+          map.invalidateSize();
+        }, 350);
+      });
+    }
+
+    // Keep panel behavior device-aware while preserving manual toggle.
+    function checkMobile() {
+      const isMobile = window.innerWidth <= 640;
+      if (panelToggleBtn) {
+        if (isMobile) {
+          sidePanel.classList.add('collapsed');
+        }
+      }
+    }
+    
+    // Initial check
+    sidePanel.classList.add('collapsed');
+    checkMobile();
+    applyTheme(true);
+    // Check on resize
+    window.addEventListener('resize', checkMobile);
 
     buildFeatureLayerMap();
     renderLocationList();
+    updateSearchSuggestions(allLocations);
     updateSearchFeedback('Search or choose a location from the list.');
   </script>
 </body>
