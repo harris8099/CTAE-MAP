@@ -825,6 +825,7 @@
         <h3>Navigation</h3>
         <p id="route-summary">Select a building, then click Navigate.</p>
         <div class="route-actions">
+          <button type="button" id="allow-location-btn" class="route-btn">Allow Location</button>
           <button type="button" id="start-nav-btn" class="route-btn primary">Navigate</button>
           <button type="button" id="clear-nav-btn" class="route-btn">Clear Route</button>
         </div>
@@ -1034,6 +1035,7 @@
     const contactInfo = document.getElementById('contact-info');
     const routeSummary = document.getElementById('route-summary');
     const routeSteps = document.getElementById('route-steps');
+    const allowLocationBtn = document.getElementById('allow-location-btn');
     const startNavBtn = document.getElementById('start-nav-btn');
     const clearNavBtn = document.getElementById('clear-nav-btn');
     const locationsToggleBtn = document.getElementById('locations-toggle-btn');
@@ -1075,6 +1077,65 @@
     let voiceMuted = false;
     let lastSpokenInstruction = '';
     let preferredVoice = null;
+
+    function getGeoErrorMessage(error) {
+      if (!error || typeof error.code !== 'number') {
+        return 'Unable to get your location. Please try again.';
+      }
+      if (error.code === 1) {
+        return 'Location permission denied. Please allow location access in browser settings.';
+      }
+      if (error.code === 2) {
+        return 'Location unavailable. Make sure GPS/location services are enabled.';
+      }
+      if (error.code === 3) {
+        return 'Location request timed out. Try moving to an open area and retry.';
+      }
+      return 'Unable to get your location. Please try again.';
+    }
+
+    function getCurrentPositionAsync(options) {
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, options);
+      });
+    }
+
+    async function ensureLocationAccess() {
+      if (!navigator.geolocation) {
+        routeSummary.textContent = 'Geolocation is not supported on this device.';
+        return null;
+      }
+
+      const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+      if (!window.isSecureContext && !isLocalhost) {
+        routeSummary.textContent = 'Location requires HTTPS on mobile browsers. Open this app over HTTPS.';
+        return null;
+      }
+
+      try {
+        if (navigator.permissions && navigator.permissions.query) {
+          const permission = await navigator.permissions.query({ name: 'geolocation' });
+          if (permission.state === 'denied') {
+            routeSummary.textContent = 'Location access is blocked. Enable it in browser site settings and retry.';
+            return null;
+          }
+        }
+      } catch (error) {
+        // Permissions API may not be available on some mobile browsers.
+      }
+
+      try {
+        const position = await getCurrentPositionAsync({
+          enableHighAccuracy: true,
+          timeout: 12000,
+          maximumAge: 0
+        });
+        return position;
+      } catch (error) {
+        routeSummary.textContent = getGeoErrorMessage(error);
+        return null;
+      }
+    }
 
     const satelliteLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
       maxZoom: 20,
@@ -1695,16 +1756,16 @@
         return;
       }
 
-      if (!navigator.geolocation) {
-        routeSummary.textContent = 'Geolocation is not supported on this device.';
-        return;
-      }
-
       clearNavigation();
       isNavigating = true;
 
       routeSummary.textContent = 'Getting your current location...';
-      navigator.geolocation.getCurrentPosition(async (position) => {
+      ensureLocationAccess().then(async (position) => {
+        if (!position) {
+          isNavigating = false;
+          return;
+        }
+
         const start = L.latLng(position.coords.latitude, position.coords.longitude);
         const destination = targetLayer.getBounds().getCenter();
         navigationDestination = destination;
@@ -1742,12 +1803,6 @@
           timeout: 15000,
           maximumAge: 0
         });
-      }, () => {
-        routeSummary.textContent = 'Could not get your location. Please allow location permission.';
-      }, {
-        enableHighAccuracy: true,
-        timeout: 12000,
-        maximumAge: 0
       });
     }
 
@@ -1841,6 +1896,15 @@
       updateMapLayout();
       setTimeout(() => map.invalidateSize(), 300);
     });
+    if (allowLocationBtn) {
+      allowLocationBtn.addEventListener('click', async () => {
+        routeSummary.textContent = 'Requesting location access...';
+        const position = await ensureLocationAccess();
+        if (position) {
+          routeSummary.textContent = 'Location access granted. You can start navigation now.';
+        }
+      });
+    }
     startNavBtn.addEventListener('click', startNavigation);
     clearNavBtn.addEventListener('click', clearNavigation);
     homeViewBtn.addEventListener('click', () => {
