@@ -6,6 +6,7 @@
   <title>CTAE Campus Map</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -145,6 +146,24 @@
       transition: transform 0.28s ease;
     }
 
+    .locations-panel {
+      position: fixed;
+      top: 66px;
+      left: 0;
+      bottom: 0;
+      width: 320px;
+      padding: 14px;
+      overflow-y: auto;
+      background: var(--panel-bg);
+      border-right: 1px solid rgba(0, 0, 0, 0.08);
+      z-index: 12;
+      transition: transform 0.28s ease;
+    }
+
+    .locations-panel.collapsed {
+      transform: translateX(-100%);
+    }
+
     .side-panel.collapsed {
       transform: translateX(-100%);
     }
@@ -160,6 +179,18 @@
 
     .side-panel.collapsed ~ #map {
       left: 0;
+    }
+
+    .locations-panel.collapsed ~ .side-panel {
+      left: 0;
+    }
+
+    .locations-panel:not(.collapsed) ~ .side-panel {
+      left: 320px;
+    }
+
+    .locations-panel:not(.collapsed) ~ #map {
+      left: calc(320px + var(--panel-width));
     }
 
     .panel-section {
@@ -233,6 +264,31 @@
       margin-bottom: 12px;
     }
 
+    .route-steps {
+      margin-top: 12px;
+      display: grid;
+      gap: 8px;
+      max-height: 240px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .route-step {
+      border: 1px solid rgba(76, 139, 134, 0.22);
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: var(--surface-bg);
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      line-height: 1.35;
+    }
+
+    .route-step strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--panel-accent);
+    }
+
     .tab-button {
       border: 1px solid rgba(0, 0, 0, 0.12);
       border-radius: 12px;
@@ -284,6 +340,111 @@
 
     body.theme-dark .leaflet-control-attribution a {
       color: #9dd4ce;
+    }
+
+    .leaflet-routing-container {
+      display: none;
+    }
+
+    .route-actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .route-btn {
+      border: 1px solid rgba(76, 139, 134, 0.45);
+      background: var(--card-bg);
+      color: var(--text-primary);
+      border-radius: 10px;
+      padding: 8px 10px;
+      cursor: pointer;
+      font-size: 0.88rem;
+    }
+
+    .route-btn.primary {
+      background: var(--panel-accent-soft);
+      border-color: var(--panel-accent);
+    }
+
+    #route-content {
+      margin-top: 14px;
+    }
+
+    .nav-guidance-popup .leaflet-popup-content-wrapper {
+      background: #1f2f31;
+      color: #e8f2f1;
+      border: 1px solid #3f6d68;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    .nav-guidance-popup .leaflet-popup-tip {
+      background: #1f2f31;
+    }
+
+    .mobile-nav-hud {
+      display: none;
+      position: fixed;
+      left: 10px;
+      right: 10px;
+      bottom: 16px;
+      z-index: 1800;
+      background: rgba(20, 33, 35, 0.94);
+      border: 1px solid rgba(123, 184, 178, 0.45);
+      border-radius: 14px;
+      color: #eef7f6;
+      padding: 10px 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(3px);
+    }
+
+    .mobile-nav-hud.active {
+      display: block;
+    }
+
+    .mobile-nav-hud-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mobile-nav-arrow {
+      font-size: 1.45rem;
+      line-height: 1;
+      width: 30px;
+      text-align: center;
+    }
+
+    .mobile-nav-text {
+      font-size: 0.92rem;
+      line-height: 1.35;
+      font-weight: 600;
+      color: #e8f7f5;
+    }
+
+    .mobile-nav-meta {
+      margin-top: 6px;
+      font-size: 0.8rem;
+      color: #b9d5d2;
+    }
+
+    .mobile-nav-controls {
+      margin-top: 8px;
+      display: flex;
+      gap: 6px;
+    }
+
+    .mobile-nav-btn {
+      flex: 1;
+      border: 1px solid rgba(123, 184, 178, 0.45);
+      background: rgba(34, 56, 58, 0.9);
+      color: #e8f7f5;
+      border-radius: 10px;
+      padding: 7px 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
     }
 
     .content-card h3 {
@@ -351,6 +512,12 @@
       .nav-actions button span {
         display: none;
       }
+
+      #home-view-btn span,
+      #locations-toggle-btn span,
+      #panel-toggle-mobile span {
+        display: inline;
+      }
     }
 
     /* Mobile landscape and small tablets */
@@ -374,6 +541,19 @@
         max-width: none;
         flex: 1;
         padding: 6px 10px;
+      }
+
+      .nav-actions {
+        gap: 2px;
+      }
+
+      .nav-actions button {
+        padding: 7px 6px;
+        font-size: 0.84rem;
+      }
+
+      .nav-actions .mobile-hide {
+        display: none;
       }
       
       .nav-search input {
@@ -503,12 +683,67 @@
         justify-content: center;
       }
       
+      .locations-panel {
+        width: 100%;
+        z-index: 1300;
+      }
+
+      .side-panel {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .panel-image {
+        display: none;
+      }
+
+      .tabs {
+        display: flex;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        position: sticky;
+        top: 0;
+        z-index: 3;
+        background: var(--panel-bg);
+        margin-bottom: 10px;
+        gap: 6px;
+      }
+
+      .tab-button {
+        flex: 1 0 92px;
+        padding: 9px 6px;
+        font-size: 0.82rem;
+        white-space: nowrap;
+      }
+
+      #home-view-btn {
+        display: flex;
+      }
+
+      .content-card {
+        padding: 12px;
+      }
+
+      .route-steps {
+        max-height: 180px;
+      }
+
       .side-panel.collapsed {
         transform: translateX(-100%);
       }
 
       .side-panel:not(.collapsed) {
         transform: translateX(0);
+      }
+
+      .locations-panel:not(.collapsed) {
+        transform: translateX(0);
+      }
+
+      .locations-panel:not(.collapsed) ~ .side-panel,
+      .locations-panel:not(.collapsed) ~ #map,
+      .side-panel.collapsed ~ #map {
+        left: 0;
       }
     }
   </style>
@@ -527,7 +762,11 @@
     </div>
 
     <div class="nav-actions">
-      <button type="button" id="panel-toggle-mobile" class="panel-toggle-btn" title="Toggle panel">
+      <button type="button" id="locations-toggle-btn" class="panel-toggle-btn" title="Toggle known locations">
+        <i class="fa-solid fa-location-dot"></i>
+        <span>Locations</span>
+      </button>
+      <button type="button" id="panel-toggle-mobile" class="panel-toggle-btn" title="Toggle details panel">
         <i class="fa-solid fa-bars"></i>
         <span>Menu</span>
       </button>
@@ -539,19 +778,22 @@
         <i id="theme-icon" class="fa-solid fa-moon"></i>
         <span id="theme-label">Dark</span>
       </button>
-      <button type="button"><i class="fa-solid fa-bookmark"></i> <span>Saved</span></button>
-      <button type="button"><i class="fa-solid fa-clock-rotate-left"></i> <span>History</span></button>
+      <button type="button" class="mobile-hide"><i class="fa-solid fa-bookmark"></i> <span>Saved</span></button>
+      <button type="button" class="mobile-hide"><i class="fa-solid fa-clock-rotate-left"></i> <span>History</span></button>
     </div>
   </div>
 
-  <aside class="side-panel">
+  <aside id="locations-panel" class="locations-panel collapsed">
     <section class="panel-section">
       <h2>Campus locations</h2>
       <div id="search-feedback" class="search-feedback">Search or choose a location from the list.</div>
       <div id="location-list" class="location-list"></div>
     </section>
+  </aside>
 
+  <aside class="side-panel collapsed">
     <section class="panel-section">
+      <h2>Selected location</h2>
       <div id="image" class="panel-image">Select a location to view details.</div>
       <div class="tabs">
         <button id="Overview" class="tab-button active">Overview</button>
@@ -578,13 +820,37 @@
           <p>Select a building to show contact details.</p>
         </div>
       </div>
+
+      <div id="route-content" class="content-card">
+        <h3>Navigation</h3>
+        <p id="route-summary">Select a building, then click Navigate.</p>
+        <div class="route-actions">
+          <button type="button" id="start-nav-btn" class="route-btn primary">Navigate</button>
+          <button type="button" id="clear-nav-btn" class="route-btn">Clear Route</button>
+        </div>
+        <div id="route-steps" class="route-steps"></div>
+      </div>
     </section>
   </aside>
 
   <div id="map"></div>
 
+  <div id="mobile-nav-hud" class="mobile-nav-hud" aria-live="polite">
+    <div class="mobile-nav-hud-top">
+      <div id="mobile-nav-arrow" class="mobile-nav-arrow">⬆</div>
+      <div id="mobile-nav-text" class="mobile-nav-text">Start navigation to see live guidance.</div>
+    </div>
+    <div id="mobile-nav-meta" class="mobile-nav-meta"></div>
+    <div class="mobile-nav-controls">
+      <button id="mobile-end-nav-btn" type="button" class="mobile-nav-btn">End</button>
+      <button id="mobile-recenter-btn" type="button" class="mobile-nav-btn">Recenter</button>
+      <button id="mobile-voice-btn" type="button" class="mobile-nav-btn">Mute</button>
+    </div>
+  </div>
+
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
   <script>
     const Department_array = [{
       id: '0',
@@ -766,6 +1032,20 @@
     const floorSelect = document.getElementById('flr');
     const floorDetail = document.getElementById('f-detail');
     const contactInfo = document.getElementById('contact-info');
+    const routeSummary = document.getElementById('route-summary');
+    const routeSteps = document.getElementById('route-steps');
+    const startNavBtn = document.getElementById('start-nav-btn');
+    const clearNavBtn = document.getElementById('clear-nav-btn');
+    const locationsToggleBtn = document.getElementById('locations-toggle-btn');
+    const locationsPanel = document.getElementById('locations-panel');
+    const mapElement = document.getElementById('map');
+    const mobileNavHud = document.getElementById('mobile-nav-hud');
+    const mobileNavArrow = document.getElementById('mobile-nav-arrow');
+    const mobileNavText = document.getElementById('mobile-nav-text');
+    const mobileNavMeta = document.getElementById('mobile-nav-meta');
+    const mobileEndNavBtn = document.getElementById('mobile-end-nav-btn');
+    const mobileRecenterBtn = document.getElementById('mobile-recenter-btn');
+    const mobileVoiceBtn = document.getElementById('mobile-voice-btn');
     const homeViewBtn = document.getElementById('home-view-btn');
     const themeToggleBtn = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
@@ -785,6 +1065,16 @@
     }).setView(DEFAULT_CENTER, DEFAULT_ZOOM);
     let currentBaseLayer = null;
     let layerControl = null;
+    let routeLayer = null;
+    let routeMarkersLayer = null;
+    let currentLocationMarker = null;
+    let navigationWatchId = null;
+    let navigationDestination = null;
+    let isNavigating = false;
+    let lastRouteRefreshAt = 0;
+    let voiceMuted = false;
+    let lastSpokenInstruction = '';
+    let preferredVoice = null;
 
     const satelliteLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
       maxZoom: 20,
@@ -979,12 +1269,211 @@
       return allLocations.filter((location) => location.name.toLowerCase().includes(normalized));
     }
 
+    function normalizeLocationName(name) {
+      return String(name || '')
+        .toLowerCase()
+        .replace(/&/g, ' and ')
+        .replace(/[^a-z0-9\s]/g, ' ')
+        .replace(/\b(department|engineering|college|campus|building|block|ctae|mpuat|main)\b/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function scoreNameMatch(a, b) {
+      const aNorm = normalizeLocationName(a);
+      const bNorm = normalizeLocationName(b);
+      if (!aNorm || !bNorm) return 0;
+      if (aNorm === bNorm) return 1;
+      if (aNorm.includes(bNorm) || bNorm.includes(aNorm)) return 0.85;
+
+      const aTokens = new Set(aNorm.split(' ').filter((t) => t.length > 2));
+      const bTokens = new Set(bNorm.split(' ').filter((t) => t.length > 2));
+      if (!aTokens.size || !bTokens.size) return 0;
+
+      let common = 0;
+      aTokens.forEach((token) => {
+        if (bTokens.has(token)) common += 1;
+      });
+      return common / Math.max(aTokens.size, bTokens.size);
+    }
+
+    function getNavigationTargetLayer(department) {
+      const directLayer = featureLayerMap[String(department.id)];
+      if (directLayer) return directLayer;
+
+      let bestLayer = null;
+      let bestScore = 0;
+      geoJSONLayer.eachLayer((layer) => {
+        const featureName = layer?.feature?.properties?.name || '';
+        const score = scoreNameMatch(department.name, featureName);
+        if (score > bestScore) {
+          bestScore = score;
+          bestLayer = layer;
+        }
+      });
+
+      if (bestLayer && bestScore >= 0.45) {
+        featureLayerMap[String(department.id)] = bestLayer;
+        return bestLayer;
+      }
+
+      return null;
+    }
+
+    function updateMapLayout() {
+      const isMobile = window.innerWidth <= 640;
+      if (isMobile) {
+        mapElement.style.left = '0px';
+        return;
+      }
+
+      const locationsOpen = locationsPanel && !locationsPanel.classList.contains('collapsed');
+      const detailsOpen = sidePanel && !sidePanel.classList.contains('collapsed');
+      const locationsWidth = locationsOpen ? 320 : 0;
+      const detailsWidth = detailsOpen ? sidePanel.getBoundingClientRect().width : 0;
+      mapElement.style.left = `${locationsWidth + detailsWidth}px`;
+    }
+
     function updateSearchSuggestions(items = allLocations) {
       searchSuggestions.innerHTML = '';
       items.slice(0, 10).forEach((location) => {
         const option = document.createElement('option');
         option.value = location.name;
         searchSuggestions.appendChild(option);
+      });
+    }
+
+    function formatDistance(meters) {
+      if (meters >= 1000) {
+        return `${(meters / 1000).toFixed(2)} km`;
+      }
+      return `${Math.round(meters)} m`;
+    }
+
+    function formatInstruction(step, isFirst) {
+      const modifierMap = {
+        left: 'turn left',
+        sharp_left: 'turn sharply left',
+        slight_left: 'bear left',
+        right: 'turn right',
+        sharp_right: 'turn sharply right',
+        slight_right: 'bear right',
+        straight: 'continue straight'
+      };
+
+      if (isFirst) {
+        return 'Start from your current location.';
+      }
+
+      const action = step.maneuver?.type || '';
+      const modifier = step.maneuver?.modifier || '';
+      const road = step.name ? ` onto ${step.name}` : '';
+
+      if (action === 'depart') {
+        return `Head out${road}.`;
+      }
+
+      if (action === 'arrive') {
+        return 'You have arrived at your destination.';
+      }
+
+      if (action === 'turn' && modifierMap[modifier]) {
+        return `${modifierMap[modifier]}${road}.`;
+      }
+
+      if (action === 'new name') {
+        return `Continue${road}.`;
+      }
+
+      if (action === 'roundabout') {
+        return `Enter the roundabout and take the indicated exit${road}.`;
+      }
+
+      if (action === 'merge') {
+        return `Merge${road}.`;
+      }
+
+      return step.maneuver?.instruction || step.name || 'Continue on the route.';
+    }
+
+    function getArrowForStep(step) {
+      const modifier = step?.maneuver?.modifier || '';
+      if (modifier === 'left' || modifier === 'slight_left' || modifier === 'sharp_left') return '⬅';
+      if (modifier === 'right' || modifier === 'slight_right' || modifier === 'sharp_right') return '➡';
+      if (modifier === 'uturn') return '↩';
+      return '⬆';
+    }
+
+    function getNextGuidanceStep(steps = []) {
+      return steps.find((step) => step?.maneuver?.type !== 'depart') || steps[0] || null;
+    }
+
+    function updateMobileHud(nextStep, route, active) {
+      if (!mobileNavHud) return;
+      const isMobile = window.innerWidth <= 640;
+      if (!active || !isMobile || !nextStep || !route) {
+        mobileNavHud.classList.remove('active');
+        return;
+      }
+
+      mobileNavArrow.textContent = getArrowForStep(nextStep);
+      mobileNavText.textContent = formatInstruction(nextStep, false);
+      mobileNavMeta.textContent = `${formatDistance(route.distance)} | about ${Math.round(route.duration / 60)} min`;
+      mobileNavHud.classList.add('active');
+    }
+
+    function updateVoiceButtonLabel() {
+      if (!mobileVoiceBtn) return;
+      mobileVoiceBtn.textContent = voiceMuted ? 'Unmute' : 'Mute';
+    }
+
+    function setPreferredFemaleVoice() {
+      if (!('speechSynthesis' in window)) return;
+      const voices = window.speechSynthesis.getVoices();
+      if (!voices || !voices.length) return;
+
+      const femaleHints = ['female', 'woman', 'zira', 'samantha', 'aria', 'jenny', 'susan', 'eva'];
+      const englishVoices = voices.filter((voice) => /^en/i.test(voice.lang || ''));
+      const candidatePool = englishVoices.length ? englishVoices : voices;
+
+      preferredVoice = candidatePool.find((voice) => {
+        const name = String(voice.name || '').toLowerCase();
+        return femaleHints.some((hint) => name.includes(hint));
+      }) || candidatePool[0] || null;
+    }
+
+    function speakGuidance(message) {
+      if (voiceMuted || !message || !('speechSynthesis' in window)) return;
+      if (message === lastSpokenInstruction) return;
+      lastSpokenInstruction = message;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(message);
+      if (!preferredVoice) {
+        setPreferredFemaleVoice();
+      }
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+        utterance.lang = preferredVoice.lang;
+      }
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function renderRouteSteps(steps = []) {
+      routeSteps.innerHTML = '';
+      if (!steps.length) {
+        routeSteps.innerHTML = '<div class="route-step">No step-by-step directions available.</div>';
+        return;
+      }
+
+      steps.slice(0, 12).forEach((step, index) => {
+        const stepEl = document.createElement('div');
+        stepEl.className = 'route-step';
+        const distance = formatDistance(step.distance || 0);
+        stepEl.innerHTML = `<strong>Step ${index + 1}</strong>${formatInstruction(step, index === 0)}<br/><span>${distance}</span>`;
+        routeSteps.appendChild(stepEl);
       });
     }
 
@@ -1075,8 +1564,13 @@
     }
 
     function selectDepartment(department) {
+      if (window.innerWidth <= 640 && locationsPanel && !locationsPanel.classList.contains('collapsed')) {
+        locationsPanel.classList.add('collapsed');
+      }
+
       if (sidePanel.classList.contains('collapsed')) {
         sidePanel.classList.remove('collapsed');
+        updateMapLayout();
       }
 
       currentDepartment = department;
@@ -1086,11 +1580,175 @@
       setActiveTab('overview');
       highlightSelectedLocation(department.id);
 
-      const layer = featureLayerMap[String(department.id)];
+      const layer = getNavigationTargetLayer(department);
       if (layer) {
         map.fitBounds(layer.getBounds().pad(0.25));
       }
+      routeSummary.textContent = `Ready to navigate to ${department.name}.`;
       updateSearchFeedback(`Showing details for ${department.name}.`);
+    }
+
+    function clearNavigation() {
+      if (routeMarkersLayer) {
+        map.removeLayer(routeMarkersLayer);
+        routeMarkersLayer = null;
+      }
+      if (routeLayer) {
+        map.removeLayer(routeLayer);
+        routeLayer = null;
+      }
+      if (currentLocationMarker) {
+        map.removeLayer(currentLocationMarker);
+        currentLocationMarker = null;
+      }
+      if (navigationWatchId !== null) {
+        navigator.geolocation.clearWatch(navigationWatchId);
+        navigationWatchId = null;
+      }
+      navigationDestination = null;
+      isNavigating = false;
+      lastRouteRefreshAt = 0;
+      lastSpokenInstruction = '';
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      if (currentDepartment) {
+        routeSummary.textContent = `Ready to navigate to ${currentDepartment.name}.`;
+      } else {
+        routeSummary.textContent = 'Select a building, then click Navigate.';
+      }
+      routeSteps.innerHTML = '';
+      updateMobileHud(null, null, false);
+    }
+
+    async function drawLiveRoute(start, destination, focusOnUser = false) {
+      const url = `https://router.project-osrm.org/route/v1/driving/${start.lng},${start.lat};${destination.lng},${destination.lat}?overview=full&steps=true&geometries=geojson`;
+      let route;
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        route = data.routes && data.routes[0];
+      } catch (error) {
+        routeSummary.textContent = 'Could not load route directions. Please try again.';
+        return;
+      }
+
+      if (!route) {
+        routeSummary.textContent = 'Could not calculate route. Please try again.';
+        return;
+      }
+
+      if (routeLayer) {
+        map.removeLayer(routeLayer);
+      }
+      routeLayer = L.geoJSON(route.geometry, {
+        style: {
+          color: '#4c8b86',
+          weight: 6,
+          opacity: 0.9
+        }
+      }).addTo(map);
+
+      const steps = route.legs?.flatMap((leg) => leg.steps || []) || [];
+      renderRouteSteps(steps);
+      const nextStep = getNextGuidanceStep(steps);
+
+      routeSummary.textContent = `${currentDepartment.name}: ${formatDistance(route.distance)}, about ${Math.round(route.duration / 60)} min. Live guidance active.`;
+      updateMobileHud(nextStep, route, true);
+
+      if (routeMarkersLayer) {
+        map.removeLayer(routeMarkersLayer);
+      }
+      routeMarkersLayer = L.layerGroup([
+        L.marker(destination, { title: currentDepartment.name })
+      ]).addTo(map);
+
+      if (currentLocationMarker && nextStep) {
+        const arrow = getArrowForStep(nextStep);
+        const instruction = formatInstruction(nextStep, false);
+        currentLocationMarker.bindPopup(`${arrow} ${instruction}`, {
+          autoClose: false,
+          closeOnClick: false,
+          className: 'nav-guidance-popup'
+        }).openPopup();
+
+        const stepDistance = nextStep.distance ? formatDistance(nextStep.distance) : '';
+        const voiceText = stepDistance ? `${instruction} in ${stepDistance}` : instruction;
+        speakGuidance(voiceText);
+      }
+
+      if (focusOnUser) {
+        map.setView(start, Math.max(map.getZoom(), 18));
+      }
+    }
+
+    function startNavigation() {
+      if (!currentDepartment) {
+        updateSearchFeedback('Select a building first, then start navigation.');
+        routeSummary.textContent = 'Please select a building first.';
+        return;
+      }
+
+      const targetLayer = getNavigationTargetLayer(currentDepartment);
+      if (!targetLayer) {
+        routeSummary.textContent = 'Navigation target is not available for this building.';
+        return;
+      }
+
+      if (!navigator.geolocation) {
+        routeSummary.textContent = 'Geolocation is not supported on this device.';
+        return;
+      }
+
+      clearNavigation();
+      isNavigating = true;
+
+      routeSummary.textContent = 'Getting your current location...';
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const start = L.latLng(position.coords.latitude, position.coords.longitude);
+        const destination = targetLayer.getBounds().getCenter();
+        navigationDestination = destination;
+
+        if (currentLocationMarker) {
+          map.removeLayer(currentLocationMarker);
+        }
+        currentLocationMarker = L.marker(start, { title: 'Your Location' }).addTo(map);
+
+        await drawLiveRoute(start, destination, true);
+        lastRouteRefreshAt = Date.now();
+
+        navigationWatchId = navigator.geolocation.watchPosition(async (watchPos) => {
+          if (!isNavigating || !navigationDestination) return;
+
+          const livePoint = L.latLng(watchPos.coords.latitude, watchPos.coords.longitude);
+
+          if (currentLocationMarker) {
+            currentLocationMarker.setLatLng(livePoint);
+          } else {
+            currentLocationMarker = L.marker(livePoint, { title: 'Your Location' }).addTo(map);
+          }
+
+          map.panTo(livePoint, { animate: true, duration: 0.8 });
+
+          const now = Date.now();
+          if (now - lastRouteRefreshAt > 4000) {
+            await drawLiveRoute(livePoint, navigationDestination, false);
+            lastRouteRefreshAt = now;
+          }
+        }, () => {
+          routeSummary.textContent = 'Live navigation update paused. Location permission may be blocked.';
+        }, {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 0
+        });
+      }, () => {
+        routeSummary.textContent = 'Could not get your location. Please allow location permission.';
+      }, {
+        enableHighAccuracy: true,
+        timeout: 12000,
+        maximumAge: 0
+      });
     }
 
     function detailPane(idOrName) {
@@ -1110,6 +1768,10 @@
       const matches = getMatchingLocations(query);
       renderLocationList(matches);
       updateSearchSuggestions(matches.length ? matches : allLocations);
+      if (query && locationsPanel) {
+        locationsPanel.classList.remove('collapsed');
+        updateMapLayout();
+      }
       if (!query) {
         updateSearchFeedback('Showing all locations. Type to narrow results.');
         return;
@@ -1126,6 +1788,7 @@
 
     function resetToHomeState() {
       currentDepartment = null;
+      clearNavigation();
       searchInput.value = '';
       setActiveTab('overview');
       renderLocationList(allLocations);
@@ -1144,13 +1807,17 @@
       floorDetail.innerHTML = '<p>Select a building to view floor details.</p>';
 
       contactInfo.innerHTML = '<p>Select a building to show contact details.</p>';
+      routeSummary.textContent = 'Select a building, then click Navigate.';
       updateSearchFeedback('Search or choose a location from the list.');
 
-      const panel = document.querySelector('.side-panel');
-      if (panel) {
-        panel.classList.add('collapsed');
+      if (locationsPanel) {
+        locationsPanel.classList.add('collapsed');
+      }
+      if (sidePanel) {
+        sidePanel.classList.add('collapsed');
       }
 
+      updateMapLayout();
       map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
       setTimeout(() => map.invalidateSize(), 250);
     }
@@ -1166,9 +1833,40 @@
     floorSelect.addEventListener('change', () => {
       if (currentDepartment) renderFloorDetails(currentDepartment, floorSelect.value);
     });
+    locationsToggleBtn.addEventListener('click', () => {
+      if (window.innerWidth <= 640 && locationsPanel.classList.contains('collapsed') && sidePanel && !sidePanel.classList.contains('collapsed')) {
+        sidePanel.classList.add('collapsed');
+      }
+      locationsPanel.classList.toggle('collapsed');
+      updateMapLayout();
+      setTimeout(() => map.invalidateSize(), 300);
+    });
+    startNavBtn.addEventListener('click', startNavigation);
+    clearNavBtn.addEventListener('click', clearNavigation);
     homeViewBtn.addEventListener('click', () => {
       resetToHomeState();
     });
+    if (mobileEndNavBtn) {
+      mobileEndNavBtn.addEventListener('click', () => {
+        clearNavigation();
+      });
+    }
+    if (mobileRecenterBtn) {
+      mobileRecenterBtn.addEventListener('click', () => {
+        if (currentLocationMarker) {
+          map.setView(currentLocationMarker.getLatLng(), Math.max(map.getZoom(), 18));
+        }
+      });
+    }
+    if (mobileVoiceBtn) {
+      mobileVoiceBtn.addEventListener('click', () => {
+        voiceMuted = !voiceMuted;
+        if (voiceMuted && 'speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+        }
+        updateVoiceButtonLabel();
+      });
+    }
     themeToggleBtn.addEventListener('click', () => {
       const darkModeActive = document.body.classList.contains('theme-dark');
       applyTheme(!darkModeActive);
@@ -1181,6 +1879,10 @@
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
+        updateMapLayout();
+        if (window.innerWidth > 640 && mobileNavHud) {
+          mobileNavHud.classList.remove('active');
+        }
         map.invalidateSize();
       }, 100);
     });
@@ -1191,7 +1893,11 @@
     
     if (panelToggleBtn && sidePanel) {
       panelToggleBtn.addEventListener('click', () => {
+        if (window.innerWidth <= 640 && sidePanel.classList.contains('collapsed') && locationsPanel && !locationsPanel.classList.contains('collapsed')) {
+          locationsPanel.classList.add('collapsed');
+        }
         sidePanel.classList.toggle('collapsed');
+        updateMapLayout();
         // Update map size after panel toggle
         setTimeout(() => {
           map.invalidateSize();
@@ -1202,23 +1908,30 @@
     // Keep panel behavior device-aware while preserving manual toggle.
     function checkMobile() {
       const isMobile = window.innerWidth <= 640;
-      if (panelToggleBtn) {
-        if (isMobile) {
-          sidePanel.classList.add('collapsed');
-        }
+      if (isMobile) {
+        if (locationsPanel) locationsPanel.classList.add('collapsed');
+        if (sidePanel) sidePanel.classList.add('collapsed');
       }
     }
     
     // Initial check
-    sidePanel.classList.add('collapsed');
+    if (locationsPanel) locationsPanel.classList.add('collapsed');
+    if (sidePanel) sidePanel.classList.add('collapsed');
+    updateMapLayout();
     checkMobile();
     applyTheme(true);
+    updateVoiceButtonLabel();
+    setPreferredFemaleVoice();
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = setPreferredFemaleVoice;
+    }
     // Check on resize
     window.addEventListener('resize', checkMobile);
 
     buildFeatureLayerMap();
     renderLocationList();
     updateSearchSuggestions(allLocations);
+    updateMapLayout();
     updateSearchFeedback('Search or choose a location from the list.');
   </script>
 </body>
